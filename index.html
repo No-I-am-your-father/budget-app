@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Piggy Bank</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Expense tracking budget web app">
+  <meta name="author" content="PiggyCo.">
+  <!-- NEW LINK TO CHARTIST.JS -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+  <!-- ^ END OF NEW STUFF -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="shortcut icon" type="image/png" href="img/piggy.png" />
+</head>
+
+<body>
+  <header>
+  </header>
+
+  <main id="pages">
+
+    <!-- Login Page -->
+    <section id="loginPage" class="page bg-login">
+      <div class="container-fluid">
+        <div class="row vh-10">
+          <div class="col-sm col-12 text-right">
+            <a href="#newAccountPage" id="newAccountButton" class="whiteContainer" onclick="showPage('newAccountPage')">
+              New account</a>
+          </div>
+        </div>
+        <div class="row vh-50">
+          <div class="col-sm col-12 text-center">
+            <!-- COIN ANIMATION -->
+            <div id="coin1" class=""></div>
+            <div id="coin2" class=""></div>
+            <img id="logo" src="img/piggy.png" alt="piggy bank logo">
+            <h1>Piggy Bank</h1>
+          </div>
+        </div>
+      </div>
+      <div class="row vh-35">
+        <div class="col-sm col-12 text-center">
+          <div class="form">
+            <form>
+              <input id="email" class="whiteField" type="text" placeholder="Email" required>
+              <input id="password" class="whiteField" type="password" placeholder="Password" required>
+              <button class="btn-blue" type="button" onclick="logInUser()" name="button">Log In</button>
+            </form>
+            <p>or <br> Log in with <a href="facebook.com"><b>Facebook</b></a></p>
+          </div>
+        </div>
+      </div>
+      <div class="row copyright vh-5">
+        <p>&copy; 2019, PiggyCo.</p>
+      </div>
+    </section>
+
+    <!-- Create new account -->
+    <section id="newAccountPage" class="page bg-create">
+      <div class="container-fluid">
+        <div class="row vh-10">
+          <div class="col-sm col-12 text-right">
+            <a href="#loginPage" id="goBackButton" class="whiteContainer" onclick="showPage('loginPage')">Go back</a>
+          </div>
+        </div>
+        <div class="row text-center vh-35">
+          <div class="col-sm">
+            <h1><span id="yellowText">NEW</span> Account</h1>
+          </div>
+        </div>
+        <div class="row vh-50">
+          <div class="col-sm col-12 text-center">
+            <div class="form">
+              <form>
+                <input id="createUsername" class="whiteField" type="text" placeholder="Username" required>
+                <input id="createPassword" class="whiteField" type="password" placeholder="Password" required>
+                <input id="createEmail" class="whiteField" type="email" placeholder="E-mail" required>
+                <button class="btn-blue" type="button" name="button" onclick="createUser()">Create</button>
+              </form>
+              <p>or <br> Log in with <a href="facebook.com"><b>Facebook</b></a></p>
+            </div>
+          </div>
+        </div>
+        <div class="row copyright vh-5">
+          <p>&copy; 2019, PiggyCo.</p>
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- Expenses overview -->
+    <section id="expensesPage" class="page">
+      <div class="container-fluid">
+        <div class="row banner vh-5">
+          <h2>Expenses Overview</h2>
+        </div>
+        <div class="row vh-50">
+          <div id="monthlyOverview" class="whiteContainer">
+            <div class="row">
+              <div class="col-6 text-center">
+                <h5>Left</h5>
+                <h5 id="leftValue"></h5>
+                <!-- JAVASCRIPT MATH -->
+              </div>
+              <div class="col-6 text-center">
+                <h5>Spent</h5>
+                <h5 id="spentValue"></h5>
+                <!-- JAVASCRIPT MATH -->
+              </div>
+            </div>
+            <div class="row">
+              <h2 id="beInTheCenter">September 2019</h2>
+            </div>
+            <div class="row">
+              <!-- BAR CHART -->
+              <div class="ct-chart-bar ct-golden-section" id="chart1"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div id="recentActivities">
+            <h3>Recent Activity</h3>
+            <button type="button" class="btn-blue" onclick="showPage('newBillPage')" name="button">Add new bill</button>
+          </div>
+        </div>
+        <div id="overview" class="row">
+          <h4>Friday 6th</h4>
+          <section id="bills" class="bill-container text-center">
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <!-- New bill page -->
+    <section id="newBillPage" class="page bg-newBill">
+      <div class="container-fluid">
+        <div class="row banner vh-5 mrg-btm">
+          <h2>New bill</h2>
+        </div>
+        <div class="row vh-90">
+          <div id="addBillForm" class="whiteContainer">
+            <h6>Required*</h6>
+            <form id="billForm">
+              <div>
+                <label>Bill title*</label>
+                <input type="text" id="billTitle" required>
+              </div>
+              <div>
+                <label>Amount*</label>
+                <input type="number" id="billAmount" required>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <label>Pick a post*</label>
+                  <select id="chosenPost" required>
+                    <option value="Food">Food</option>
+                    <option value="Transportation">Transportation</option>
+                    <option value="Leisure">Leisure</option>
+                    <option value="Clothing">Clothing</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <div class="col-6">
+                  <label>Currency*</label>
+                  <select id="chosenCurrency" required>
+                    <option value="DKK">DKK</option>
+                    <option value="AUD">AUD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="SEK">SEK</option>
+                  </select>
+                </div>
+              </div>
+              <div class="text-center addButton">
+                <button type="button" class="btn-round btn-blue" name="button" onclick="addBill()">Add</button>
+                <button type="button" name="button" class="btn-round btn-grey" onclick="showPage('expensesPage')">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="row copyright vh-5">
+          <p>&copy; 2019, PiggyCo.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Budget page -->
+    <section id="budgetPage" class="page">
+      <div class="row banner vh-5 mrg-btm">
+        <h2>Budget</h2>
+      </div>
+      <div class="dropdown">
+        <div class="dropdown-toggle" role="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Main
+        </div>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#">Hobbies</a>
+          <a class="dropdown-item" href="#">Medical</a>
+          <a class="dropdown-item" href="#">Add new</a>
+        </div>
+      </div>
+      <div id="budgetGraph" class="whiteContainer">
+        <div class="row">
+          <div class="col-6 text-center">
+            <h5>Income</h5>
+            <h5 id="incomeValue"></h5>
+          </div>
+          <div class="col-6 text-center">
+            <h5>Remaining</h5>
+            <h5 id="remainingValue"></h5>
+          </div>
+        </div>
+        <div class="row">
+          <!-- PIE CHART -->
+          <div class="ct-chart-pie ct-golden-section" id="chart2"></div>
+        </div>
+        <div id="chartLabels" class="row">
+          <!-- CHART DESCRIPTIONS -->
+          <div class="col-2 text-center">
+            <img src="img/mint.png" alt="indicator">
+            <p>Rent</p>
+          </div>
+          <div class="col-2 text-center">
+            <img src="img/magenta.png" alt="indicator">
+            <p>Food</p>
+          </div>
+          <div class="col-2 text-center">
+            <img src="img/coinOrange.png" alt="indicator">
+            <p>Transp.</p>
+          </div>
+          <div class="col-2 text-center">
+            <img src="img/lavender.png" alt="indicator">
+            <p>Utilities</p>
+          </div>
+          <div class="col-2 text-center">
+            <img src="img/babyblue.png" alt="indicator">
+            <p>Other</p>
+          </div>
+        </div>
+      </div>
+      <div id="budgetPosts">
+        <section id="defaultPosts" class="defaultPost-container">
+          <div id="postLabels" class="row">
+            <div class="col-8">Post</div>
+            <div class="col-2">DKK</div>
+            <div class="col-2">EUR</div>
+          </div>
+          <!-- DEFAULT POSTS -->
+          <article class="row entry Income">
+            <div class="col-8 text-left">
+              <h4>SU</h4>
+            </div>
+            <div class="col-2">
+              <h5>5200</h5>
+            </div>
+            <div class="col-2">
+              <h5>0</h5>
+            </div>
+          </article>
+          <article class="row entry Income">
+            <div class="col-8 text-left">
+              <h4>Salary</h4>
+            </div>
+            <div class="col-2">
+              <h5>1200</h5>
+            </div>
+            <div class="col-2">
+              <h5>0</h5>
+            </div>
+          </article>
+          <article class="row entry Expense">
+            <div class="col-8 text-left">
+              <h4>Rent</h4>
+            </div>
+            <div class="col-2">
+              <h5>3800</h5>
+            </div>
+            <div class="col-2">
+              <h5>0</h5>
+            </div>
+          </article>
+          <article class="row entry Expense">
+            <div class="col-8 text-left">
+              <h4>Food</h4>
+            </div>
+            <div class="col-2">
+              <h5>1910</h5>
+            </div>
+            <div class="col-2">
+              <h5>130</h5>
+            </div>
+          </article>
+          <article class="row entry Expense">
+            <div class="col-8 text-left">
+              <h4>Transportation</h4>
+            </div>
+            <div class="col-2">
+              <h5>600</h5>
+            </div>
+            <div class="col-2">
+              <h5>400</h5>
+            </div>
+          </article>
+          <article class="row entry Expense">
+            <div class="col-8 text-left">
+              <h4>Utilities</h4>
+            </div>
+            <div class="col-2">
+              <h5>200</h5>
+            </div>
+            <div class="col-2">
+              <h5>0</h5>
+            </div>
+          </article>
+        </section>
+        <!-- CUSTOM POSTS FROM JAVASCRIPT-->
+        <section id="posts" class="post-container"></section>
+        <div class="row">
+          <div class="text-center">
+            <div class="col-6 text-center addPostButton">
+              <button type="button" class="btn-blue" onclick="showPage('newPostPage')" name="button">Add new post</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEW POST PAGE -->
+    <section id="newPostPage" class="page bg-newPost">
+      <div class="container-fluid">
+        <div class="row banner vh-5 mrg-btm">
+          <h2>New budget post</h2>
+        </div>
+        <div class="row vh-90">
+          <div id="addPostForm" class="whiteContainer">
+            <h6>Required*</h6>
+            <form id="postForm">
+              <div>
+                <label>Post title*</label>
+                <input type="text" id="postTitle" required>
+              </div>
+              <div>
+                <label>Amount DKK*</label>
+              </div>
+              <input type="number" id="postAmount1" required>
+              <div>
+                <label>Amount EUR*</label>
+              </div>
+              <input type="number" id="postAmount2" required>
+              <div class="row">
+                <div class="col-6">
+                  <div class="budgetText">
+                    <label>Budget sheet*</label>
+                  </div>
+                  <select id="chosenSheet" required>
+                    <option value="Main">Main</option>
+                    <option value="Leisure">Leisure</option>
+                    <option value="Medical">Medical</option>
+                  </select>
+                </div>
+                <div>
+                  <div class="col-6">
+                    <div class="budgetText">
+                      <label>Type*</label>
+                      <select id="postExpense" required>
+                        <option value="Expense">Expense</option>
+                        <option value="Income">Income</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="text-center addButton1">
+                <button type="button" class="btn-round btn-blue" name="button" onclick="addPost()">Add</button>
+                <button type="button" name="button" class="btn-round btn-grey" onclick="showPage('budgetPage')">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="row copyright vh-5">
+        <p>&copy; 2019, PiggyCo.</p>
+      </div>
+    </section>
+
+    <!-- CONVERTER PAGE -->
+    <section id="converterPage" class="page converterPage">
+      <div class="row banner vh-5 mrg-btm">
+        <h2>Converter</h2>
+      </div>
+      <div>
+        <h2>Convert</h2>
+        <form id="convertForm">
+
+          <div id="currency1">EUR</div>
+          <input type="number" id="currencyAmount1">
+
+          <div id="currency2">DKK</div>
+          <input type="number" id="currencyAmount2">
+          <button id="convertButton" type="button" name="button" onclick="convert()">Convert</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- SETTINGS PAGE (PICTURE) -->
+    <section id="settingsPage" class="page text-center">
+      <div class="row banner vh-5 mrg-btm">
+        <h2>Settings</h2>
+      </div>
+      <img src="img/settings.svg" alt="mockSettings" class="vw-100">
+    </section>
+  </main>
+
+  <!-- TABBAR NAVIGATION (HIDDEN ON LOGIN PAGE)-->
+  <footer>
+    <nav id="tabbar-footer" class="tabbar hide">
+      <div class="row text-center">
+        <a href="#expensesPage" onclick="showPage('expensesPage')"><img src="img/expenses.png" alt="expenses icon"></a>
+        <a href="#budgetPage" onclick="showPage('budgetPage')"><img src="img/budget.png" alt="budget icon"></a>
+        <a href="#converterPage" onclick="showPage('converterPage')"><img src="img/converter.png" alt="converter icon"></a>
+        <a href="#settingsPage" onclick="showPage('settingsPage')"><img src="img/settings.png" alt="settings icon"></a>
+      </div>
+    </nav>
+  </footer>
+
+
+  <!-- NEW CHARTIST.JS SCRIPT -->
+  <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+  <!-- ^ END OF NEW STUFF ^-->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/6.5.0/firebase-app.js"></script>
+  <!-- Firebase Firestore (database) JS SDK -->
+  <script src="https://www.gstatic.com/firebasejs/6.5.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.6.0/firebase-auth.js"></script>
+  <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+  <!-- main js file -->
+  <script src="js/main.js"></script>
+</body>
+
+</html>
